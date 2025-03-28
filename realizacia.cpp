@@ -50,7 +50,7 @@ void createH(Console** arr, int* count) {
 }
 
 void loadH(Console** arr, int* count) {
-    std::ifstream file("список.txt", std::ios::binary);
+    std::ifstream file("список.txt");
     if (!file.is_open()) {
         *count = 0;
         delete[] *arr; 
@@ -74,9 +74,21 @@ void loadH(Console** arr, int* count) {
 }
 
 void saveH(Console* arr, int count) {
-    std::ofstream file("список.txt", std::ios::binary);
-    file.write(reinterpret_cast<const char*>(&count), sizeof(int));
-    file.write(reinterpret_cast<const char*>(arr), sizeof(Console) * count);
+    std::ofstream file("список.txt");
+    if (!file.is_open()) {
+        std::cerr << "Ошибка открытия файла для записи" << std::endl;
+        return;
+    }
+
+    file << count << std::endl;
+
+    for (int i = 0; i < count; ++i) {
+        file << arr[i].getName() << std::endl;
+        file << arr[i].getYear() << std::endl;
+        file << arr[i].getFormat() << std::endl;
+        file << arr[i].getCost() << std::endl;
+    }
+
     file.close();
 }
 
