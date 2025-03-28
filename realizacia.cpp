@@ -34,11 +34,6 @@ std::istream& operator>>(std::istream& is, Console& console) {
 namespace ConsoleOperations {
 
 void createH(Console** arr, int* count) {
-    std::ifstream file("список.txt");
-    if (file.is_open()) {
-        file.close();
-    }
-
     *count = 5;
     *arr = new Console[*count];
 
