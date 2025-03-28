@@ -1,6 +1,6 @@
 #include <iostream>
 #include <fstream>
-#include "Head(2.0).h"
+#include "Head2.0.h"
 
 void Console::setName(const std::string& name) { this->name = name; }
 void Console::setYear(int year) { this->year = year; }
