@@ -1,6 +1,6 @@
 #include <iostream>
 #include <fstream>
-#include "Head2.0.h"
+#include "Head2.h"
 
 void Console::setName(const std::string& name) { this->name = name; }
 void Console::setYear(int year) { this->year = year; }
@@ -53,7 +53,7 @@ void loadH(Console** arr, int* count) {
     std::ifstream file("список.txt", std::ios::binary);
     if (!file.is_open()) {
         *count = 0;
-        delete[] *arr; // Освобождаем память, если она была выделена ранее
+        delete[] *arr; 
         *arr = nullptr;
         return;
     }
@@ -111,7 +111,7 @@ void addH(Console** arr, int* count) {
     }
 
     Console newConsole;
-    std::cin >> newConsole; // Используем перегруженный оператор >>
+    std::cin >> newConsole; 
 
     temp[*count] = newConsole;
 
@@ -155,6 +155,6 @@ void editH(Console* arr, int count) {
     Console* reConsole = &arr[n - 1];
     
     std::cout << "Введите новые данные для приставки:" << std::endl;
-    std::cin >> *reConsole; // Используем перегруженный оператор >>
+    std::cin >> *reConsole;
 }
 }
