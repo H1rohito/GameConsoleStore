@@ -51,26 +51,61 @@ void createH(Console** arr, int* count) {
 
 void loadH(Console** arr, int* count) {
     std::ifstream file("список.txt");
+    *arr = nullptr;  
+    *count = 0;      
+
     if (!file.is_open()) {
-        *count = 0;
-        delete[] *arr; 
-        *arr = nullptr;
+        std::cerr << "Ошибка открытия файла для чтения" << std::endl;
         return;
     }
 
-    file.read(reinterpret_cast<char*>(count), sizeof(int));
+    int temp_count = 0;
+    file >> temp_count;
+    file.ignore(); 
 
-    *arr = new Console[*count];
-    if (*arr == nullptr) {
+    if (file.fail()) {
+      std::cerr << "Ошибка чтения количества записей из файла" << std::endl;
+      file.close();
+      return;
+    }
+
+    Console* temp_arr = new Console[temp_count];
+    if (temp_arr == nullptr) {
         std::cerr << "Ошибка выделения памяти" << std::endl;
         file.close();
-        *count = 0;
         return;
     }
 
-    file.read(reinterpret_cast<char*>(*arr), sizeof(Console) * (*count));
+    for (int i = 0; i < temp_count; ++i) {
+        std::string name, format;
+        int year, cost;
+
+        std::getline(file, name);
+        file >> year;
+        file.ignore();
+        std::getline(file, format);
+        file >> cost;
+        file.ignore();
+
+        if (file.fail()) {
+            std::cerr << "Ошибка чтения данных из файла (строка " << i + 1 << ")" << std::endl;
+            delete[] temp_arr;
+            file.close();
+            return;
+        }
+
+        temp_arr[i].setName(name);
+        temp_arr[i].setYear(year);
+        temp_arr[i].setFormat(format);
+        temp_arr[i].setCost(cost);
+    }
 
     file.close();
+
+
+    delete[] *arr;
+    *arr = temp_arr;
+    *count = temp_count;
 }
 
 void saveH(Console* arr, int count) {
