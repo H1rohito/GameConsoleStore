@@ -1,1 +1,1 @@
-g++ main.cpp Source.cpp
+g++ main.cpp realizacia.cpp
